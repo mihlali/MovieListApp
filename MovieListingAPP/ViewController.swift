@@ -21,6 +21,15 @@ class ViewController: UIViewController {
         activityIndicator.startAnimating()
         viewModel.fetchMovie()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        if segue.identifier == "movieDetailsSegue" {
+            let detailsViewController = segue.destination as! MovieDetailViewController
+            detailsViewController.set(movie: viewModel.selectedMovie)
+        }
+       
+    }
 }
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
@@ -45,6 +54,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath) as! GenreTableViewCell
         cell.populateViewWith(movies: viewModel.tableViewScetions[indexPath.section].movies)
+        cell.set(delegate: self)
         return cell
     }
     
@@ -54,9 +64,15 @@ extension ViewController: MovieListDelegate {
     func refreshView() {
         DispatchQueue.main.async {
             self.activityIndicator.stopAnimating()
-            self.activityIndicator.isHidden = true
             self.tableView.reloadData()
         }
+    }
+}
+
+extension ViewController: collectionViewCellDelegate {
+    func collectionViewCellTapped(at index: Int, selectedMovie movie: Movie) {
+        viewModel.selectedMovie = movie
+        performSegue(withIdentifier: "movieDetailsSegue", sender: self)
     }
 }
 
