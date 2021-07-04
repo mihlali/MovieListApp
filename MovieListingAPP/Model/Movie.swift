@@ -14,18 +14,18 @@ struct Movies: Codable {
 
 struct Movie: Codable {
     
-    var backdropImageURL: String?
-    var cast: [String]?
-    var classification: String?
-    var director: String?
-    var genres: [String]
-    var rating: Double?
-    var length: String
-    var overview: String
-    var posterURL: String
-    var releaseDate: String
-    var slug: String
-    var title: String
+    var backdropImageURL = ""
+    var cast = [String]()
+    var classification = ""
+    var director = ""
+    var genres = [String]()
+    var rating = 0.0
+    var length = ""
+    var overview = ""
+    var posterURL = ""
+    var releaseDate = ""
+    var slug = ""
+    var title = ""
     var posterImage = UIImage()
     var backdropImage = UIImage()
     
