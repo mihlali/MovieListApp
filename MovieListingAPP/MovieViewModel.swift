@@ -21,12 +21,32 @@ class MoviesListViewModel {
     
     private var interactor: FetchMoviesInteractor
     private weak var delegate: MovieListDelegate?
+    private var clickedMovie: Movie?
     var tableViewScetions = [MovieGenerSection]()
     var moviesModelList = [Movie]()
     
     init(delegate: MovieListDelegate) {
         self.delegate = delegate
         self.interactor = FetchMoviesInteractor()
+    }
+    
+    var genreTypes: [String] {
+        var generSet = Set<String>()
+        for movie in moviesModelList {
+            for index in 0..<movie.genres.count {
+                generSet.insert(movie.genres[index] )
+            }
+        }
+        return Array(generSet)
+    }
+    
+    var selectedMovie: Movie {
+        get {
+            return clickedMovie ?? Movie()
+        }
+        set {
+            clickedMovie = newValue
+        }
     }
     
     func fetchMovie(movieName: String = "") {
@@ -40,16 +60,6 @@ class MoviesListViewModel {
                 print(error)
             }
         }
-    }
-    
-    var genreTypes: [String] {
-        var generSet = Set<String>()
-        for movie in moviesModelList {
-            for index in 0..<movie.genres.count {
-                generSet.insert(movie.genres[index])
-            }
-        }
-        return Array(generSet)
     }
     
     private func createArrayOfDictionaries() {
