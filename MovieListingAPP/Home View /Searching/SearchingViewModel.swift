@@ -8,18 +8,19 @@
 import Foundation
 
 protocol SearchDelegate: NSObjectProtocol {
-    func refreshViewFor()
+    func refreshViewFor(isSuccess: Bool, message: String?)
 }
 
 class SearchingViewModel {
     
-    private var interactor: FetchMoviesInteractor
+    private var interactor: MovieProtocol
     private weak var delegate: SearchDelegate?
     var searchedMovies = [Movie]()
     var selectedMovie = Movie()
     
-    init(delegate: SearchDelegate) {
-        interactor = FetchMoviesInteractor()
+    init(delegate: SearchDelegate,
+         interactor: MovieProtocol ) {
+        self.interactor = interactor
         self.delegate = delegate
     }
     
@@ -28,9 +29,9 @@ class SearchingViewModel {
             switch response {
             case.success(let response):
                 self?.searchedMovies = response.movies
-                self?.delegate?.refreshViewFor()
+                self?.delegate?.refreshViewFor(isSuccess: true, message: nil)
             case.failure(let error):
-                print(error)
+                self?.delegate?.refreshViewFor(isSuccess: false, message: error.localizedDescription)
             }
         }
     }
