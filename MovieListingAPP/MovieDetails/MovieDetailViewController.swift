@@ -36,5 +36,4 @@ class MovieDetailViewController: UIViewController {
         castLabel.text = viewModel.cast
         descriptionLabel.text = viewModel.description
     }
-
 }

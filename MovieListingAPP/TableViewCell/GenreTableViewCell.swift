@@ -39,7 +39,7 @@ extension GenreTableViewCell: UICollectionViewDelegate,  UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCollectionViewCell", for: indexPath) as! MovieCollectionViewCell
-        let movie = movielist?[indexPath.row]// fix crash
+        let movie = movielist?[indexPath.row]
         cell.setImage(posterImageURLString: movie?.posterURL ?? "")
         return cell
     }

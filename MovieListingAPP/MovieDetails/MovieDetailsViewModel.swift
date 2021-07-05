@@ -16,7 +16,7 @@ struct  MovieDetailsViewModel {
     }
     
     var posterTitle: String {
-        return "\(movie.title) \(movie.rating )"
+        return "\(movie.title) (\(movie.rating ))"
     }
     
     var yearLengthDirector: String {
