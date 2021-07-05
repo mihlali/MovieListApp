@@ -28,7 +28,6 @@ class ViewController: UIViewController {
             let detailsViewController = segue.destination as! MovieDetailViewController
             detailsViewController.set(movie: viewModel.selectedMovie)
         }
-       
     }
 }
 

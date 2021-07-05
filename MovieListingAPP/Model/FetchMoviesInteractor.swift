@@ -19,10 +19,10 @@ class FetchMoviesInteractor {
     
     func fetchMoviesList(searchString: String, completion: @escaping fetchMoviesSuccess) {
         
-        let urlString = searchString.isEmpty ? "https://wookie.codesubmit.io/movies": "https://wookie.codesubmit.io/movies?q=\(searchString)"
+        let createdURL = searchString.isEmpty ? creatURlwithOutQuery() : createURlWithQuery(query: searchString)
         
-        guard let url = URL(string: urlString) else {
-            completion(.failure(.badURL))
+        guard let url = createdURL else {
+            completion((.failure(.badURL)))
             return
         }
         
@@ -49,5 +49,26 @@ class FetchMoviesInteractor {
             let decodedMovies = try? JSONDecoder().decode(Movies.self, from: data)
             completion(.success(decodedMovies ?? Movies()))
         }.resume()
+    }
+    
+    private func createURlWithQuery(query: String) -> URL? {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "wookie.codesubmit.io"
+        components.path = "/movies"
+        components.queryItems = [
+            URLQueryItem(name: "q", value: query),
+        ]
+        guard let url = components.url else {
+            return nil
+        }
+        return url
+    }
+    
+    private func creatURlwithOutQuery() -> URL? {
+        guard let url = URL(string: "https://wookie.codesubmit.io/movies") else {
+            return nil
+        }
+        return url
     }
 }
