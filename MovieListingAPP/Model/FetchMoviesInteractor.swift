@@ -15,7 +15,12 @@ enum serviceError: Error {
 
 typealias fetchMoviesSuccess = (Result< Movies, serviceError>) -> Void
 
-class FetchMoviesInteractor {
+protocol MovieProtocol {
+    func fetchMoviesList(searchString: String,
+                         completion: @escaping fetchMoviesSuccess)
+}
+
+class FetchMoviesInteractor: MovieProtocol {
     
     func fetchMoviesList(searchString: String, completion: @escaping fetchMoviesSuccess) {
         
