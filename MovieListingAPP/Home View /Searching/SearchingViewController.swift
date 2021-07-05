@@ -12,8 +12,8 @@ class SearchingViewController: UIViewController {
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     @IBOutlet private var searchTableView: UITableView!
     private let searchController = UISearchController()
-    private lazy var viewModel = SearchingViewModel(delegate: self)
-    
+    private lazy var viewModel = SearchingViewModel(delegate: self,
+                                                    interactor: FetchMoviesInteractor())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +31,6 @@ class SearchingViewController: UIViewController {
         searchTableView.register(UINib(nibName: "SearchTableViewCell", bundle: nil),
                                  forCellReuseIdentifier: "searchCell")
         searchTableView?.translatesAutoresizingMaskIntoConstraints = false
-
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -55,7 +54,16 @@ extension SearchingViewController: UISearchBarDelegate {
 }
 
 extension SearchingViewController: SearchDelegate {
-    func refreshViewFor() {
+
+    
+    func refreshViewFor(isSuccess: Bool, message: String?) {
+        
+        guard isSuccess else {
+            AlertView.showAlert(view: self,
+                                message: message ?? "Something went wrong, please try again",
+                                title: "Error")
+            return
+        }
         DispatchQueue.main.async {
             self.activityIndicator.stopAnimating()
             self.activityIndicator.isHidden = true

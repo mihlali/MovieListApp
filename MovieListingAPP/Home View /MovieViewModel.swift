@@ -19,15 +19,15 @@ struct MovieGenerSection {
 
 class MoviesListViewModel {
     
-    private var interactor: FetchMoviesInteractor
+    private var interactor: MovieProtocol
     private weak var delegate: MovieListDelegate?
     private var clickedMovie: Movie?
     var tableViewScetions = [MovieGenerSection]()
     var moviesModelList = [Movie]()
     
-    init(delegate: MovieListDelegate) {
+    init(delegate: MovieListDelegate, interactor: MovieProtocol) {
         self.delegate = delegate
-        self.interactor = FetchMoviesInteractor()
+        self.interactor = interactor
     }
     
     var genreTypes: [String] {

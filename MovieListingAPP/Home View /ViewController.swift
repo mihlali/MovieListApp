@@ -12,7 +12,8 @@ class ViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     
-    private lazy var viewModel = MoviesListViewModel(delegate: self)
+    private lazy var viewModel = MoviesListViewModel(delegate: self,
+                                                     interactor: FetchMoviesInteractor())
     
     override func viewDidLoad() {
         super.viewDidLoad()
